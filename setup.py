@@ -16,7 +16,7 @@
 # When developing and releasing this package, please follow the documented
 # Zope Toolkit policies as described by this documentation.
 ##############################################################################
-version = '3.5.5dev'
+version = '3.5.5'
 
 import os
 

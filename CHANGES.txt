@@ -2,7 +2,7 @@
 CHANGES
 =======
 
-3.5.5 (unreleased)
+3.5.5 (2010-01-09)
 ------------------
 
 - Initial release, extracted from zope.app.applicationcontrol.
