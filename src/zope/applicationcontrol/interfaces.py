@@ -41,10 +41,6 @@ class IRuntimeInfo(Interface):
         """Return the name of the encoding used to convert
            Unicode filenames into system file names"""
 
-    def getZopeVersion():
-        """Return a string containing the descriptive version of the
-           current zope installation"""
-
     def getPythonVersion():
         """Return an unicode string containing verbose description
            of the python interpreter"""
@@ -65,14 +61,6 @@ class IRuntimeInfo(Interface):
 
     def getUptime():
         """Return the Zope server uptime in seconds"""
-
-
-class IZopeVersion(Interface):
-    """ Zope version """
-
-    def getZopeVersion():
-        """Return a string containing the Zope version (possibly including
-           SVN information)"""
 
 
 class IServerControl(Interface):

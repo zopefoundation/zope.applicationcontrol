@@ -18,8 +18,8 @@ import unittest
 from zope.interface.verify import verifyObject
 
 import time
-from zope.app.applicationcontrol.applicationcontrol import ApplicationControl
-from zope.app.applicationcontrol.interfaces import IApplicationControl
+from zope.applicationcontrol.applicationcontrol import ApplicationControl
+from zope.applicationcontrol.interfaces import IApplicationControl
 
 # seconds, time values may differ in order to be assumed equal
 time_tolerance = 2

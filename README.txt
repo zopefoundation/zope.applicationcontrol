@@ -1,25 +1,10 @@
-===========================
-zope.app.applicationcontrol
-===========================
+=======================
+zope.applicationcontrol
+=======================
 
-The application control instance is usually generated upon startup.
-This package provides runtime information adapter for application
-control and Zope version.  Also provide a utility with methods for
-shutting down and restarting the server.
+The application control instance can be generated upon startup of an
+application built with the Zope Toolkit.
 
-
-Developer Resources
--------------------
-
-- Subversion browser:
-
-    http://svn.zope.org/zope.app.applicationcontrol/
-
-- Read-only Subversion checkout::
-
-  $ svn co svn://svn.zope.org/repos/main/zope.app.applicationcontrol/trunk
-
-- Writable Subversion checkout::
-
-  $ svn co svn+ssh://userid@svn.zope.org/repos/main/zope.app.applicationcontrol/trunk
-
+This package provides an API to retrieve runtime information. It also
+provides a utility with methods for shutting down and restarting the
+server.

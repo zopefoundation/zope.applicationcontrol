@@ -25,20 +25,18 @@ from setuptools import setup, find_packages
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-setup(name='zope.app.applicationcontrol',
+setup(name='zope.applicationcontrol',
     version = version,
     author='Zope Foundation and Contributors',
-    author_email='zope3-dev@zope.org',
+    author_email='zope-dev@zope.org',
     description='Zope applicationcontrol',
     long_description=(
         read('README.txt')
         + '\n\n' +
-        read('INSTALL.txt')
-        + '\n\n' +
         read('CHANGES.txt')
         ),
     license='ZPL 2.1',
-    keywords = "zope3 application control",
+    keywords = "zope ztk application control",
     classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
@@ -49,7 +47,7 @@ setup(name='zope.app.applicationcontrol',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope3'],
-    url='http://cheeseshop.python.org/pypi/zope.app.applicationcontrol',
+    url='http://cheeseshop.python.org/pypi/zope.applicationcontrol',
     extras_require=dict(
         test=['zope.app.appsetup',
               'zope.app.authentication',
@@ -63,7 +61,7 @@ setup(name='zope.app.applicationcontrol',
               ]),
     package_dir = {'': 'src'},
     packages=find_packages('src'),
-    namespace_packages=['zope', 'zope.app'],
+    namespace_packages=['zope'],
     install_requires=[
           'setuptools',
           'zope.component',
