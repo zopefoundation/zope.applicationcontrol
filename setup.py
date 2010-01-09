@@ -50,14 +50,12 @@ setup(name='zope.applicationcontrol',
     url='http://cheeseshop.python.org/pypi/zope.applicationcontrol',
     extras_require=dict(
         test=[
-            'zope.app.testing',
             ]),
     package_dir = {'': 'src'},
     packages=find_packages('src'),
     namespace_packages=['zope'],
     install_requires=[
           'setuptools',
-          'zope.component',
           'zope.i18nmessageid',
           'zope.interface',
           'zope.location',

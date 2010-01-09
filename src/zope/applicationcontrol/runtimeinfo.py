@@ -28,10 +28,7 @@ except ImportError:
 
 import platform
 
-from zope.component import getUtility, ComponentLookupError
 from zope.interface import implements
-
-from zope.applicationcontrol.i18n import ZopeMessageFactory as _
 
 from zope.applicationcontrol.interfaces import IRuntimeInfo
 from zope.applicationcontrol.interfaces import IApplicationControl

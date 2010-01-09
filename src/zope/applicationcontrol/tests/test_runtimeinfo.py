@@ -22,18 +22,15 @@ try:
 except ImportError:
     locale = None
 
-import zope.component
-from zope.interface import implements
 from zope.interface.verify import verifyObject
 from zope.applicationcontrol.applicationcontrol import applicationController
 from zope.applicationcontrol.interfaces import IRuntimeInfo
-from zope.app.testing.placelesssetup import PlacelessSetup
 
 # seconds, time values may differ in order to be assumed equal
 time_tolerance = 2
 stupid_version_string = "3085t0klvn93850voids"
 
-class Test(PlacelessSetup, unittest.TestCase):
+class Test(unittest.TestCase):
 
     def _Test__new(self):
         from zope.applicationcontrol.runtimeinfo import RuntimeInfo
