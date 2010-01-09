@@ -27,13 +27,13 @@ from zope.interface import implements
 from zope.interface.verify import verifyObject
 from zope.applicationcontrol.applicationcontrol import applicationController
 from zope.applicationcontrol.interfaces import IRuntimeInfo
-from zope.app.component.testing import PlacefulSetup
+from zope.app.testing.placelesssetup import PlacelessSetup
 
 # seconds, time values may differ in order to be assumed equal
 time_tolerance = 2
 stupid_version_string = "3085t0klvn93850voids"
 
-class Test(PlacefulSetup, unittest.TestCase):
+class Test(PlacelessSetup, unittest.TestCase):
 
     def _Test__new(self):
         from zope.applicationcontrol.runtimeinfo import RuntimeInfo
