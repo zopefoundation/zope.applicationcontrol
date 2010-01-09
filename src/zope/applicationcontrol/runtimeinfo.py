@@ -28,10 +28,12 @@ except ImportError:
 
 import platform
 
+from zope.component import getUtility, ComponentLookupError
 from zope.interface import implements
 
 from zope.applicationcontrol.interfaces import IRuntimeInfo
 from zope.applicationcontrol.interfaces import IApplicationControl
+from zope.applicationcontrol.interfaces import IZopeVersion
 
 try:
     from zope.app.appsetup import appsetup
@@ -76,6 +78,14 @@ class RuntimeInfo(object):
             enc = self.getPreferredEncoding()
         return enc
 
+    def getZopeVersion(self):
+        """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
+        try:
+            version_utility = getUtility(IZopeVersion)
+        except ComponentLookupError:
+            return "Unavailable"
+        return version_utility.getZopeVersion()
+    
     def getPythonVersion(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         return unicode(sys.version, self.getPreferredEncoding())

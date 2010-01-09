@@ -22,13 +22,23 @@ try:
 except ImportError:
     locale = None
 
+from zope import component
+from zope.interface import implements
 from zope.interface.verify import verifyObject
 from zope.applicationcontrol.applicationcontrol import applicationController
-from zope.applicationcontrol.interfaces import IRuntimeInfo
+from zope.applicationcontrol.interfaces import IRuntimeInfo, IZopeVersion
 
 # seconds, time values may differ in order to be assumed equal
 time_tolerance = 2
 stupid_version_string = "3085t0klvn93850voids"
+
+class TestZopeVersion(object):
+    """A fallback implementation for the ZopeVersion utility."""
+
+    implements(IZopeVersion)
+
+    def getZopeVersion(self):
+        return stupid_version_string
 
 class Test(unittest.TestCase):
 
@@ -63,6 +73,17 @@ class Test(unittest.TestCase):
         enc = self._getFileSystemEncoding()
         self.assertEqual(runtime_info.getFileSystemEncoding(), enc)
 
+    def test_ZopeVersion(self):
+        runtime_info = self._Test__new()
+
+        # we expect that there is no utility
+        self.assertEqual(runtime_info.getZopeVersion(), u"Unavailable")
+
+        siteManager = component.getSiteManager()
+        siteManager.registerUtility(TestZopeVersion(), IZopeVersion)
+
+        self.assertEqual(runtime_info.getZopeVersion(), stupid_version_string)
+        
     def test_PythonVersion(self):
         runtime_info = self._Test__new()
         enc = self._getPreferredEncoding()
