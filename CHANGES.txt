@@ -1,0 +1,36 @@
+=======
+CHANGES
+=======
+
+3.5.0 (2009-09-07)
+------------------
+
+- Add ZODB3 to install_requires, because it's a true requirement of this
+  package, not just a testing requirement, as BTrees are in use.
+
+- Fix one test that was inactive because it's function was overriden by
+  a mistake.
+
+3.4.2 (2009-03-09)
+------------------
+
+- Clean up package description and documentation a bit.
+
+- Change mailing list address to zope-dev at zope.org, as
+  zope3-dev at zope.org is now retired.
+
+- Remove old zpkg-related files.
+
+3.4.1 (2008-08-26)
+------------------
+
+- Annotation factories take care not to store proxies in the database,
+  so adapting an object wrapped in a ``LocationProxy`` works correctly.
+  Fixes https://bugs.launchpad.net/zope3/+bug/261620
+
+3.4.0 (2007-08-29)
+------------------
+
+- Annotation factories are no longer containing the factored object.
+  Instead the objects are located using ``zope.location``. This removes
+  a dependency to ``zope.app.container``.
