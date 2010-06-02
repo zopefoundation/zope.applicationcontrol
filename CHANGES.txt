@@ -1,0 +1,21 @@
+===========================
+Changes for zope.annotation
+===========================
+
+
+==================
+3.4.1 (2008-08-26)
+==================
+
+- Annotation factories take care not to store proxies in the database, so
+  adapting an object wrapped in a LocationProxy works correctly.
+  Fixes https://bugs.launchpad.net/zope3/+bug/261620
+
+
+==================
+3.4.0 (2007-08-29)
+==================
+
+- Annotation factories are no longer containing the factored object.
+  Instead the objects are located using zope.location .  This removes
+  a dependency to zope.app.container .
