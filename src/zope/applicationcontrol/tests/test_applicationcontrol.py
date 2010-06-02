@@ -11,8 +11,6 @@
 # FOR A PARTICULAR PURPOSE.
 ##############################################################################
 """Application Control Tests
-
-$Id$
 """
 import unittest
 from zope.interface.verify import verifyObject

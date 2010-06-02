@@ -15,8 +15,6 @@
 """Sample test script using zope.testing.testrunner
 
 see zope.testing testrunner.txt
-
-$Id: test.py 70876 2006-10-22 07:42:56Z baijum $
 """
 
 import os, sys

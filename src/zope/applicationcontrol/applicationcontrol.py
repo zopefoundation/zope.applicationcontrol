@@ -12,8 +12,7 @@
 #
 ##############################################################################
 """Application Control
-
-$Id$"""
+"""
 __docformat__ = 'restructuredtext'
 
 import time

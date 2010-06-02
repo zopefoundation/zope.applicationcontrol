@@ -12,8 +12,6 @@
 #
 ##############################################################################
 """Application Control Interface
-
-$Id$
 """
 __docformat__ = 'restructuredtext'
 

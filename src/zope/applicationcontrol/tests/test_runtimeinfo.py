@@ -11,8 +11,6 @@
 # FOR A PARTICULAR PURPOSE.
 ##############################################################################
 """Runtime Info Tests
-
-$Id$
 """
 import unittest
 import os, sys, time
