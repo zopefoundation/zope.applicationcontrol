@@ -27,7 +27,7 @@ except ImportError:
 import platform
 
 from zope.component import getUtility, ComponentLookupError
-from zope.interface import implements
+from zope.interface import implementer
 
 from zope.applicationcontrol.interfaces import IRuntimeInfo
 from zope.applicationcontrol.interfaces import IApplicationControl
@@ -39,10 +39,10 @@ except ImportError:
     appsetup = None
 
 
+@implementer(IRuntimeInfo)
 class RuntimeInfo(object):
     """Runtime information."""
 
-    implements(IRuntimeInfo)
     __used_for__ = IApplicationControl
 
     def __init__(self, context):

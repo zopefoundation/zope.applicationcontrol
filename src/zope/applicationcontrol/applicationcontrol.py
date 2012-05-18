@@ -22,9 +22,9 @@ from zope.location import Location
 from zope.security.checker import ProxyFactory, NamesChecker
 from zope.applicationcontrol.interfaces import IApplicationControl
 
+@zope.interface.implementer(IApplicationControl)
 class ApplicationControl(Location):
 
-    zope.interface.implements(IApplicationControl)
 
     def __init__(self):
         self.start_time = time.time()

@@ -21,7 +21,7 @@ except ImportError:
     locale = None
 
 from zope import component
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface.verify import verifyObject
 from zope.applicationcontrol.applicationcontrol import applicationController
 from zope.applicationcontrol.interfaces import IRuntimeInfo, IZopeVersion
@@ -30,13 +30,13 @@ from zope.applicationcontrol.interfaces import IRuntimeInfo, IZopeVersion
 time_tolerance = 2
 stupid_version_string = "3085t0klvn93850voids"
 
+@implementer(IZopeVersion)
 class TestZopeVersion(object):
     """A fallback implementation for the ZopeVersion utility."""
 
-    implements(IZopeVersion)
-
     def getZopeVersion(self):
         return stupid_version_string
+
 
 class Test(unittest.TestCase):
 
