@@ -39,7 +39,7 @@ def alltests():
 
 setup(
     name='zope.applicationcontrol',
-    version='4.0.0a1',
+    version='4.0.0a2.dev0',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     description='Zope applicationcontrol',
