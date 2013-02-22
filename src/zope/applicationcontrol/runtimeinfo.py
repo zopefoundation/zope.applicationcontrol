@@ -26,7 +26,7 @@ except ImportError:
 
 import platform
 
-from zope.component import getUtility, ComponentLookupError
+from zope.component import getUtility, ComponentLookupError, adapter
 from zope.interface import implementer
 
 from zope.applicationcontrol.interfaces import IRuntimeInfo
@@ -38,12 +38,12 @@ try:
 except ImportError:
     appsetup = None
 
+PY3 = sys.version_info[0] == 3
 
 @implementer(IRuntimeInfo)
+@adapter(IApplicationControl)
 class RuntimeInfo(object):
     """Runtime information."""
-
-    __used_for__ = IApplicationControl
 
     def __init__(self, context):
         self.context = context
@@ -83,15 +83,17 @@ class RuntimeInfo(object):
         except ComponentLookupError:
             return "Unavailable"
         return version_utility.getZopeVersion()
-    
+
     def getPythonVersion(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        return unicode(sys.version, self.getPreferredEncoding())
+        return sys.version if PY3 else sys.version.decode(
+            self.getPreferredEncoding())
 
     def getPythonPath(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         enc = self.getFileSystemEncoding()
-        return tuple([unicode(path, enc) for path in sys.path])
+        return tuple([path if PY3 else path.decode(enc)
+                      for path in sys.path])
 
     def getSystemPlatform(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
@@ -99,7 +101,7 @@ class RuntimeInfo(object):
         enc = self.getPreferredEncoding()
         for item in platform.uname():
             try:
-                t = unicode(item, enc)
+                t = item if PY3 else item.decode(enc)
             except ValueError:
                 continue
             info.append(t)
@@ -107,7 +109,8 @@ class RuntimeInfo(object):
 
     def getCommandLine(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        return unicode(" ".join(sys.argv), self.getPreferredEncoding())
+        cmd = " ".join(sys.argv)
+        return cmd if PY3 else cmd.decode(self.getPreferredEncoding())
 
     def getProcessId(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""

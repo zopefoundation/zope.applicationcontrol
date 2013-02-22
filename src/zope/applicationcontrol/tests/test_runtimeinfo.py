@@ -30,6 +30,8 @@ from zope.applicationcontrol.interfaces import IRuntimeInfo, IZopeVersion
 time_tolerance = 2
 stupid_version_string = "3085t0klvn93850voids"
 
+PY3 = sys.version_info[0] == 3
+
 @implementer(IZopeVersion)
 class TestZopeVersion(object):
     """A fallback implementation for the ZopeVersion utility."""
@@ -81,12 +83,13 @@ class Test(unittest.TestCase):
         siteManager.registerUtility(TestZopeVersion(), IZopeVersion)
 
         self.assertEqual(runtime_info.getZopeVersion(), stupid_version_string)
-        
+
     def test_PythonVersion(self):
         runtime_info = self._Test__new()
         enc = self._getPreferredEncoding()
-        self.assertEqual(runtime_info.getPythonVersion(),
-                unicode(sys.version, enc))
+        self.assertEqual(
+            runtime_info.getPythonVersion(),
+            sys.version if PY3 else sys.version.decode(enc))
 
     def test_SystemPlatform(self):
         runtime_info = self._Test__new()

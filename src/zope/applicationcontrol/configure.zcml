@@ -1,4 +1,4 @@
-<configure 
+<configure
    xmlns="http://namespaces.zope.org/zope"
    i18n_domain="zope"
    >
@@ -15,13 +15,11 @@
        permission="zope.ManageApplication"
        interface=".interfaces.IApplicationControl"/>
   </class>
-  
-  <adapter 
-     for=".interfaces.IApplicationControl"
-     provides=".interfaces.IRuntimeInfo"
+
+  <adapter
      factory=".runtimeinfo.RuntimeInfo"
      permission="zope.ManageApplication" />
-  
+
   <utility
      component=".applicationcontrol.applicationController"
      provides="zope.traversing.interfaces.IEtcNamespace"

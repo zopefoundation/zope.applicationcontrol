@@ -16,17 +16,30 @@
 # When developing and releasing this package, please follow the documented
 # Zope Toolkit policies as described by this documentation.
 ##############################################################################
-version = '4.0.0dev'
-
 import os
-
 from setuptools import setup, find_packages
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
-setup(name='zope.applicationcontrol',
-    version = version,
+def alltests():
+    import os
+    import sys
+    import unittest
+    # use the zope.testrunner machinery to find all the
+    # test suites we've put under ourselves
+    import zope.testrunner.find
+    import zope.testrunner.options
+    here = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
+    args = sys.argv[:]
+    defaults = ["--test-path", here]
+    options = zope.testrunner.options.get_options(args, defaults)
+    suites = list(zope.testrunner.find.find_suites(options))
+    return unittest.TestSuite(suites)
+
+setup(
+    name='zope.applicationcontrol',
+    version='4.0.0a1.dev',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     description='Zope applicationcontrol',
@@ -46,14 +59,16 @@ setup(name='zope.applicationcontrol',
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: Implementation :: CPython',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope3'],
     url='http://cheeseshop.python.org/pypi/zope.applicationcontrol',
     extras_require=dict(
-        test=[
-            ]),
+        test=['zope.testing']),
     package_dir = {'': 'src'},
     packages=find_packages('src'),
     namespace_packages=['zope'],
@@ -65,6 +80,11 @@ setup(name='zope.applicationcontrol',
           'zope.security',
           'zope.traversing>=3.7.0',
         ],
+    tests_require = [
+        'zope.testing',
+        'zope.testrunner',
+        ],
+    test_suite = '__main__.alltests',
     include_package_data = True,
     zip_safe = False,
     )

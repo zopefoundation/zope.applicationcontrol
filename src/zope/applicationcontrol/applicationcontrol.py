@@ -25,7 +25,6 @@ from zope.applicationcontrol.interfaces import IApplicationControl
 @zope.interface.implementer(IApplicationControl)
 class ApplicationControl(Location):
 
-
     def __init__(self):
         self.start_time = time.time()
 
