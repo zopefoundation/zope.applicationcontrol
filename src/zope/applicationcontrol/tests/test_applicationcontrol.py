@@ -34,7 +34,7 @@ class Test(unittest.TestCase):
         assert_time = time.time()
         test_time = self._Test__new().getStartTime()
 
-        self.failUnless(abs(assert_time - test_time) < time_tolerance)
+        self.assertTrue(abs(assert_time - test_time) < time_tolerance)
 
 
 def test_suite():

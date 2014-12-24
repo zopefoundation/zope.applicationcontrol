@@ -93,7 +93,7 @@ class Test(unittest.TestCase):
 
     def test_SystemPlatform(self):
         runtime_info = self._Test__new()
-        self.failUnless(runtime_info.getSystemPlatform())
+        self.assertTrue(runtime_info.getSystemPlatform())
 
     def test_CommandLine(self):
         runtime_info = self._Test__new()
@@ -113,7 +113,7 @@ class Test(unittest.TestCase):
         # get the uptime the current implementation calculates
         test_uptime = runtime_info.getUptime()
 
-        self.failUnless(abs(asserted_uptime - test_uptime) < time_tolerance)
+        self.assertTrue(abs(asserted_uptime - test_uptime) < time_tolerance)
 
 
 def test_suite():
