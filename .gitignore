@@ -7,3 +7,4 @@ src/*.egg-info
 bin
 develop-eggs
 parts
+eggs/
