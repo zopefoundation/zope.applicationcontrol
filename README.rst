@@ -1,6 +1,8 @@
-=======================
-zope.applicationcontrol
-=======================
+``zope.applicationcontrol``
+===========================
+
+.. image:: https://travis-ci.org/zopefoundation/zope.applicationcontrol.png?branch=master
+        :target: https://travis-ci.org/zopefoundation/zope.applicationcontrol
 
 The application control instance can be generated upon startup of an
 application built with the Zope Toolkit.
