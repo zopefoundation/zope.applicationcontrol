@@ -6,12 +6,11 @@ python:
     - 3.3
     - 3.4
     - pypy
-#   - pypy3
-#   pending release of a fix for https://bitbucket.org/pypy/pypy/issue/1946
+    - pypy3
 install:
+    - pip install zope.testing zope.testrunner
     - pip install
-    - pip install zope.applicationcontrol[test]
 script:
-    - python setup.py test -q
+    - python setup.py -q test -q
 notifications:
     email: false
