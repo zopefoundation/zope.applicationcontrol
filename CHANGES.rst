@@ -1,7 +1,7 @@
 Changes
 =======
 
-4.0.1 (unreleased)
+4.0.1 (2015-06-05)
 ------------------
 
 - Add support for Python 3.2 and PyPy3.
