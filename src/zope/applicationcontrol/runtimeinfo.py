@@ -39,6 +39,10 @@ except ImportError:
     appsetup = None
 
 PY3 = sys.version_info[0] == 3
+if PY3:
+    _u = str
+else:
+    _u = unicode
 
 @implementer(IRuntimeInfo)
 @adapter(IApplicationControl)
@@ -62,12 +66,14 @@ class RuntimeInfo(object):
 
     def getPreferredEncoding(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        if locale is not None:
-            try:
-                return locale.getpreferredencoding()
-            except locale.Error:
-                pass
-        return sys.getdefaultencoding()
+        try:
+            result = locale.getpreferredencoding()
+        except (locale.Error, AttributeError):
+            result = ''
+        # Under some systems, getpreferredencoding() can return ''
+        # (e.g., Python 2.7/MacOSX/LANG=en_us.UTF-8). This then blows
+        # up with 'unknown encoding'
+        return result or sys.getdefaultencoding()
 
     def getFileSystemEncoding(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
@@ -105,7 +111,7 @@ class RuntimeInfo(object):
             except ValueError:
                 continue
             info.append(t)
-        return u" ".join(info)
+        return _u(" ").join(info)
 
     def getCommandLine(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""

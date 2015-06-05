@@ -31,6 +31,11 @@ time_tolerance = 2
 stupid_version_string = "3085t0klvn93850voids"
 
 PY3 = sys.version_info[0] == 3
+if PY3:
+    _u = str
+else:
+    _u = unicode
+
 
 @implementer(IZopeVersion)
 class TestZopeVersion(object):
@@ -47,12 +52,14 @@ class Test(unittest.TestCase):
         return RuntimeInfo(applicationController)
 
     def _getPreferredEncoding(self):
-        if locale is not None:
-            try:
-                return locale.getpreferredencoding()
-            except locale.Error:
-                pass
-        return sys.getdefaultencoding()
+        try:
+            result = locale.getpreferredencoding()
+        except (locale.Error, AttributeError):
+            result = ''
+        # Under some systems, getpreferredencoding() can return ''
+        # (e.g., Python 2.7/MacOSX/LANG=en_us.UTF-8). This then blows
+        # up with 'unknown encoding'
+        return result or sys.getdefaultencoding()
 
     def _getFileSystemEncoding(self):
         enc = sys.getfilesystemencoding()
@@ -77,7 +84,7 @@ class Test(unittest.TestCase):
         runtime_info = self._Test__new()
 
         # we expect that there is no utility
-        self.assertEqual(runtime_info.getZopeVersion(), u"Unavailable")
+        self.assertEqual(runtime_info.getZopeVersion(), _u("Unavailable"))
 
         siteManager = component.getSiteManager()
         siteManager.registerUtility(TestZopeVersion(), IZopeVersion)
