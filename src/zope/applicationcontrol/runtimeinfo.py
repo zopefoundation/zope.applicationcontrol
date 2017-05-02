@@ -109,7 +109,7 @@ class RuntimeInfo(object):
             except UnicodeError:
                 continue
             info.append(t)
-        return u''.join(info)
+        return u' '.join(info)
 
     def getCommandLine(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""

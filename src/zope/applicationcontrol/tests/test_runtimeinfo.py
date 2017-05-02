@@ -116,10 +116,14 @@ class Test(unittest.TestCase):
         try:
             platform.uname = bad_uname
             plat = runtime_info.getSystemPlatform()
+            self.assertEqual(plat, u'')
+
+            platform.uname = lambda: ('a', 'b')
+            plat = runtime_info.getSystemPlatform()
+            self.assertEqual(plat, u'a b')
         finally:
             platform.uname = uname
 
-        self.assertEqual(plat, u'')
 
     def test_CommandLine(self):
         runtime_info = self._Test__new()
