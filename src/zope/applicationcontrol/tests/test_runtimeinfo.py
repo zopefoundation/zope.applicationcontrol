@@ -13,11 +13,13 @@
 """Runtime Info Tests
 """
 import unittest
-import os, sys, time
+import os
+import sys
+import time
 
 try:
     import locale
-except ImportError:
+except ImportError: # pragma: no cover
     locale = None
 
 from zope import component
@@ -30,11 +32,10 @@ from zope.applicationcontrol.interfaces import IRuntimeInfo, IZopeVersion
 time_tolerance = 2
 stupid_version_string = "3085t0klvn93850voids"
 
-PY3 = sys.version_info[0] == 3
-if PY3:
-    _u = str
-else:
-    _u = unicode
+try:
+    text_type = unicode
+except NameError:
+    text_type = str
 
 
 @implementer(IZopeVersion)
@@ -54,7 +55,7 @@ class Test(unittest.TestCase):
     def _getPreferredEncoding(self):
         try:
             result = locale.getpreferredencoding()
-        except (locale.Error, AttributeError):
+        except (locale.Error, AttributeError): # pragma: no cover
             result = ''
         # Under some systems, getpreferredencoding() can return ''
         # (e.g., Python 2.7/MacOSX/LANG=en_us.UTF-8). This then blows
@@ -63,9 +64,7 @@ class Test(unittest.TestCase):
 
     def _getFileSystemEncoding(self):
         enc = sys.getfilesystemencoding()
-        if enc is None:
-            enc = self._getPreferredEncoding()
-        return enc
+        return enc or self._getPreferredEncoding()
 
     def testIRuntimeInfoVerify(self):
         verifyObject(IRuntimeInfo, self._Test__new())
@@ -84,7 +83,7 @@ class Test(unittest.TestCase):
         runtime_info = self._Test__new()
 
         # we expect that there is no utility
-        self.assertEqual(runtime_info.getZopeVersion(), _u("Unavailable"))
+        self.assertEqual(runtime_info.getZopeVersion(), u"Unavailable")
 
         siteManager = component.getSiteManager()
         siteManager.registerUtility(TestZopeVersion(), IZopeVersion)
@@ -96,11 +95,35 @@ class Test(unittest.TestCase):
         enc = self._getPreferredEncoding()
         self.assertEqual(
             runtime_info.getPythonVersion(),
-            sys.version if PY3 else sys.version.decode(enc))
+            sys.version if not isinstance(sys.version, bytes)
+            else sys.version.decode(enc))
 
     def test_SystemPlatform(self):
         runtime_info = self._Test__new()
-        self.assertTrue(runtime_info.getSystemPlatform())
+        plat = runtime_info.getSystemPlatform()
+        self.assertTrue(plat)
+        self.assertIsInstance(plat, text_type)
+
+        # Now something that can't be decoded
+        import platform
+        uname = platform.uname
+
+        def bad_uname():
+            class BadObject(object):
+                def decode(self, _enc):
+                    raise UnicodeError("Not gonna happen")
+            return (BadObject(),)
+        try:
+            platform.uname = bad_uname
+            plat = runtime_info.getSystemPlatform()
+            self.assertEqual(plat, u'')
+
+            platform.uname = lambda: ('a', 'b')
+            plat = runtime_info.getSystemPlatform()
+            self.assertEqual(plat, u'a b')
+        finally:
+            platform.uname = uname
+
 
     def test_CommandLine(self):
         runtime_info = self._Test__new()
@@ -119,14 +142,56 @@ class Test(unittest.TestCase):
 
         # get the uptime the current implementation calculates
         test_uptime = runtime_info.getUptime()
+        self.assertAlmostEqual(asserted_uptime, test_uptime, delta=time_tolerance)
 
-        self.assertTrue(abs(asserted_uptime - test_uptime) < time_tolerance)
+    @unittest.skipIf(not sys.path, "Need entries on path")
+    def test_getPythonPath_returns_unicode(self):
+        runtime_info = self._Test__new()
+        path = runtime_info.getPythonPath()
+        for p in path:
+            self.assertIsInstance(p, text_type)
 
+    def test_getDeveloperMode(self):
+        from zope.applicationcontrol import runtimeinfo as module
+        orig_appsetup = module.appsetup
+
+        runtime_info = self._Test__new()
+
+        try:
+            # Module not available
+            module.appsetup = None
+            self.assertEqual(runtime_info.getDeveloperMode(), 'undefined')
+
+            # context not available
+            class Setup(object):
+                context = None
+                @classmethod
+                def getConfigContext(cls):
+                    return cls.context
+
+            module.appsetup = Setup
+            self.assertEqual(runtime_info.getDeveloperMode(), 'undefined')
+
+            features = []
+            class Context(object):
+                @staticmethod
+                def hasFeature(name):
+                    return name in features
+
+            # Feature off
+            Setup.context = Context
+            self.assertEqual(runtime_info.getDeveloperMode(), 'Off')
+
+            # Feature on
+            features.append('devmode')
+            self.assertEqual(runtime_info.getDeveloperMode(), 'On')
+        finally:
+            module.appsetup = orig_appsetup
 
 def test_suite():
     return unittest.TestSuite((
-        unittest.makeSuite(Test),
-        ))
+        unittest.defaultTestLoader.loadTestsFromName(__name__),
+    ))
 
 if __name__ == '__main__':
     unittest.main()
