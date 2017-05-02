@@ -33,14 +33,13 @@ class Test(unittest.TestCase):
     def test_startTime(self):
         assert_time = time.time()
         test_time = self._Test__new().getStartTime()
-
-        self.assertTrue(abs(assert_time - test_time) < time_tolerance)
+        self.assertAlmostEqual(assert_time, test_time, delta=time_tolerance)
 
 
 def test_suite():
     return unittest.TestSuite((
-        unittest.makeSuite(Test),
-        ))
+        unittest.defaultTestLoader.loadTestsFromName(__name__),
+    ))
 
 if __name__ == '__main__':
     unittest.main()

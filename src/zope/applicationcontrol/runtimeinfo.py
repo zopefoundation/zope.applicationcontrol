@@ -21,7 +21,7 @@ import time
 
 try:
     import locale
-except ImportError:
+except ImportError: # pragma: no cover
     locale = None
 
 import platform
@@ -38,11 +38,11 @@ try:
 except ImportError:
     appsetup = None
 
-PY3 = sys.version_info[0] == 3
-if PY3:
-    _u = str
-else:
-    _u = unicode
+try:
+    text_type = unicode
+except NameError:
+    text_type = str
+
 
 @implementer(IRuntimeInfo)
 @adapter(IApplicationControl)
@@ -57,8 +57,8 @@ class RuntimeInfo(object):
         if appsetup is None:
             return 'undefined'
 
-        cc=appsetup.getConfigContext()
-        if cc == None:  # make the test run
+        cc = appsetup.getConfigContext()
+        if cc is None:  # make the test run
             return 'undefined'
         if cc.hasFeature('devmode'):
             return 'On'
@@ -68,7 +68,7 @@ class RuntimeInfo(object):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         try:
             result = locale.getpreferredencoding()
-        except (locale.Error, AttributeError):
+        except (locale.Error, AttributeError): # pragma: no cover
             result = ''
         # Under some systems, getpreferredencoding() can return ''
         # (e.g., Python 2.7/MacOSX/LANG=en_us.UTF-8). This then blows
@@ -78,9 +78,7 @@ class RuntimeInfo(object):
     def getFileSystemEncoding(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         enc = sys.getfilesystemencoding()
-        if enc is None:
-            enc = self.getPreferredEncoding()
-        return enc
+        return enc if enc is not None else self.getPreferredEncoding()
 
     def getZopeVersion(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
@@ -92,13 +90,13 @@ class RuntimeInfo(object):
 
     def getPythonVersion(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        return sys.version if PY3 else sys.version.decode(
+        return sys.version if isinstance(sys.version, text_type) else sys.version.decode(
             self.getPreferredEncoding())
 
     def getPythonPath(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         enc = self.getFileSystemEncoding()
-        return tuple([path if PY3 else path.decode(enc)
+        return tuple([path if isinstance(path, text_type) else path.decode(enc)
                       for path in sys.path])
 
     def getSystemPlatform(self):
@@ -107,16 +105,16 @@ class RuntimeInfo(object):
         enc = self.getPreferredEncoding()
         for item in platform.uname():
             try:
-                t = item if PY3 else item.decode(enc)
-            except ValueError:
+                t = item if isinstance(item, text_type) else item.decode(enc)
+            except UnicodeError:
                 continue
             info.append(t)
-        return _u(" ").join(info)
+        return u''.join(info)
 
     def getCommandLine(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         cmd = " ".join(sys.argv)
-        return cmd if PY3 else cmd.decode(self.getPreferredEncoding())
+        return cmd if isinstance(cmd, text_type) else cmd.decode(self.getPreferredEncoding())
 
     def getProcessId(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""

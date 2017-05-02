@@ -38,6 +38,11 @@ def alltests():
     suites = list(zope.testrunner.find.find_suites(options))
     return unittest.TestSuite(suites)
 
+tests_require = [
+    'zope.testing',
+    'zope.testrunner',
+]
+
 setup(
     name='zope.applicationcontrol',
     version='4.1.0.dev0',
@@ -50,8 +55,8 @@ setup(
         read('CHANGES.rst')
         ),
     license='ZPL 2.1',
-    keywords = "zope ztk application control",
-    classifiers = [
+    keywords="zope ztk application control",
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
@@ -63,16 +68,19 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope3'],
-    url='http://cheeseshop.python.org/pypi/zope.applicationcontrol',
-    extras_require=dict(
-        test=['zope.testing']),
-    package_dir = {'': 'src'},
+        'Framework :: Zope3',
+    ],
+    url='http://github.com/zopefoundation/zope.applicationcontrol',
+    extras_require={
+        'test': tests_require,
+    },
+    package_dir={'': 'src'},
     packages=find_packages('src'),
     namespace_packages=['zope'],
     install_requires=[
@@ -83,11 +91,8 @@ setup(
           'zope.security',
           'zope.traversing>=3.7.0',
         ],
-    tests_require = [
-        'zope.testing',
-        'zope.testrunner',
-        ],
-    test_suite = '__main__.alltests',
-    include_package_data = True,
-    zip_safe = False,
-    )
+    tests_require=tests_require,
+    test_suite='__main__.alltests',
+    include_package_data=True,
+    zip_safe=False,
+)
