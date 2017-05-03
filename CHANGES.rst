@@ -1,7 +1,7 @@
 Changes
 =======
 
-4.1.0 (unreleased)
+4.1.0 (2017-05-03)
 ------------------
 
 - Add support for Python 3.5 and 3.6.
