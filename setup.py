@@ -74,7 +74,7 @@ setup(
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope3',
+        'Framework :: Zope :: 3',
     ],
     url='http://github.com/zopefoundation/zope.applicationcontrol',
     extras_require={
