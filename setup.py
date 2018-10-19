@@ -23,21 +23,6 @@ def read(*rnames):
     with open(os.path.join(os.path.dirname(__file__), *rnames)) as f:
         return f.read()
 
-def alltests():
-    import os
-    import sys
-    import unittest
-    # use the zope.testrunner machinery to find all the
-    # test suites we've put under ourselves
-    import zope.testrunner.find
-    import zope.testrunner.options
-    here = os.path.abspath(os.path.join(os.path.dirname(__file__), 'src'))
-    args = sys.argv[:]
-    defaults = ["--test-path", here]
-    options = zope.testrunner.options.get_options(args, defaults)
-    suites = list(zope.testrunner.find.find_suites(options))
-    return unittest.TestSuite(suites)
-
 tests_require = [
     'zope.testing',
     'zope.testrunner',
@@ -45,7 +30,7 @@ tests_require = [
 
 setup(
     name='zope.applicationcontrol',
-    version='4.1.1.dev0',
+    version='4.2.0.dev0',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     description='Zope applicationcontrol',
@@ -65,10 +50,10 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Natural Language :: English',
@@ -76,7 +61,7 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Framework :: Zope :: 3',
     ],
-    url='http://github.com/zopefoundation/zope.applicationcontrol',
+    url='https://github.com/zopefoundation/zope.applicationcontrol',
     extras_require={
         'test': tests_require,
     },
@@ -84,15 +69,14 @@ setup(
     packages=find_packages('src'),
     namespace_packages=['zope'],
     install_requires=[
-          'setuptools',
-          'zope.interface',
-          'zope.component',
-          'zope.location',
-          'zope.security',
-          'zope.traversing>=3.7.0',
-        ],
+        'setuptools',
+        'zope.interface',
+        'zope.component',
+        'zope.location',
+        'zope.security',
+        'zope.traversing>=3.7.0',
+    ],
     tests_require=tests_require,
-    test_suite='__main__.alltests',
     include_package_data=True,
     zip_safe=False,
 )
