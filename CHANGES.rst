@@ -2,7 +2,7 @@
  Changes
 =========
 
-4.2.0 (unreleased)
+4.2.0 (2018-10-19)
 ==================
 
 - Drop support for ``setup.py test``.
