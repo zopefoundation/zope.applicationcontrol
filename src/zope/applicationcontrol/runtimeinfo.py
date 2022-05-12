@@ -15,23 +15,27 @@
 """
 __docformat__ = 'restructuredtext'
 
-import sys
 import os
+import sys
 import time
+
 
 try:
     import locale
-except ImportError: # pragma: no cover
+except ImportError:  # pragma: no cover
     locale = None
 
 import platform
 
-from zope.component import getUtility, ComponentLookupError, adapter
+from zope.component import ComponentLookupError
+from zope.component import adapter
+from zope.component import getUtility
 from zope.interface import implementer
 
-from zope.applicationcontrol.interfaces import IRuntimeInfo
 from zope.applicationcontrol.interfaces import IApplicationControl
+from zope.applicationcontrol.interfaces import IRuntimeInfo
 from zope.applicationcontrol.interfaces import IZopeVersion
+
 
 try:
     from zope.app.appsetup import appsetup
@@ -68,7 +72,7 @@ class RuntimeInfo(object):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         try:
             result = locale.getpreferredencoding()
-        except (locale.Error, AttributeError): # pragma: no cover
+        except (locale.Error, AttributeError):  # pragma: no cover
             result = ''
         # Under some systems, getpreferredencoding() can return ''
         # (e.g., Python 2.7/MacOSX/LANG=en_us.UTF-8). This then blows
@@ -90,8 +94,10 @@ class RuntimeInfo(object):
 
     def getPythonVersion(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        return sys.version if isinstance(sys.version, text_type) else sys.version.decode(
-            self.getPreferredEncoding())
+        return (
+            sys.version
+            if isinstance(sys.version, text_type)
+            else sys.version.decode(self.getPreferredEncoding()))
 
     def getPythonPath(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
@@ -114,7 +120,10 @@ class RuntimeInfo(object):
     def getCommandLine(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         cmd = " ".join(sys.argv)
-        return cmd if isinstance(cmd, text_type) else cmd.decode(self.getPreferredEncoding())
+        return (
+            cmd
+            if isinstance(cmd, text_type)
+            else cmd.decode(self.getPreferredEncoding()))
 
     def getProcessId(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
