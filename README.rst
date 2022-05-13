@@ -1,8 +1,8 @@
 ``zope.applicationcontrol``
 ===========================
 
-.. image:: https://travis-ci.com/zopefoundation/zope.applicationcontrol.svg?branch=master
-        :target: https://travis-ci.com/zopefoundation/zope.applicationcontrol
+.. image:: https://github.com/zopefoundation/zope.applicationcontrol/actions/workflows/tests.yml/badge.svg
+        :target: https://github.com/zopefoundation/zope.applicationcontrol/actions/workflows/tests.yml
 
 The application control instance can be generated upon startup of an
 application built with the Zope Toolkit.

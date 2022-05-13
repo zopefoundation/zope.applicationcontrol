@@ -12,15 +12,18 @@
 ##############################################################################
 """Application Control Tests
 """
+import time
 import unittest
+
 from zope.interface.verify import verifyObject
 
-import time
 from zope.applicationcontrol.applicationcontrol import ApplicationControl
 from zope.applicationcontrol.interfaces import IApplicationControl
 
+
 # seconds, time values may differ in order to be assumed equal
 time_tolerance = 2
+
 
 class Test(unittest.TestCase):
 
@@ -34,12 +37,3 @@ class Test(unittest.TestCase):
         assert_time = time.time()
         test_time = self._Test__new().getStartTime()
         self.assertAlmostEqual(assert_time, test_time, delta=time_tolerance)
-
-
-def test_suite():
-    return unittest.TestSuite((
-        unittest.defaultTestLoader.loadTestsFromName(__name__),
-    ))
-
-if __name__ == '__main__':
-    unittest.main()

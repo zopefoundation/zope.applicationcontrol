@@ -17,6 +17,7 @@ __docformat__ = 'restructuredtext'
 
 from zope.interface import Interface
 
+
 class IApplicationControl(Interface):
     """The application control instance is usually generated upon startup and
     can therefore record the startup time."""
@@ -42,12 +43,12 @@ class IRuntimeInfo(Interface):
     def getZopeVersion():
         """Return a string containing the descriptive version of the
         current zope installation.
-        
+
         Deprecated: the concept of a Zope version went away in the
         Zope Toolkit. It is unlikely this gives sensible results in
         many situations.
         """
-        
+
     def getPythonVersion():
         """Return an unicode string containing verbose description
            of the python interpreter"""
@@ -68,6 +69,7 @@ class IRuntimeInfo(Interface):
 
     def getUptime():
         """Return the Zope server uptime in seconds"""
+
 
 class IZopeVersion(Interface):
     """Zope version

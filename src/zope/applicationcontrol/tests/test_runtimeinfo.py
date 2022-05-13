@@ -12,21 +12,25 @@
 ##############################################################################
 """Runtime Info Tests
 """
-import unittest
 import os
 import sys
 import time
+import unittest
+
 
 try:
     import locale
-except ImportError: # pragma: no cover
+except ImportError:  # pragma: no cover
     locale = None
 
-from zope import component
 from zope.interface import implementer
 from zope.interface.verify import verifyObject
+
+from zope import component
 from zope.applicationcontrol.applicationcontrol import applicationController
-from zope.applicationcontrol.interfaces import IRuntimeInfo, IZopeVersion
+from zope.applicationcontrol.interfaces import IRuntimeInfo
+from zope.applicationcontrol.interfaces import IZopeVersion
+
 
 # seconds, time values may differ in order to be assumed equal
 time_tolerance = 2
@@ -55,7 +59,7 @@ class Test(unittest.TestCase):
     def _getPreferredEncoding(self):
         try:
             result = locale.getpreferredencoding()
-        except (locale.Error, AttributeError): # pragma: no cover
+        except (locale.Error, AttributeError):  # pragma: no cover
             result = ''
         # Under some systems, getpreferredencoding() can return ''
         # (e.g., Python 2.7/MacOSX/LANG=en_us.UTF-8). This then blows
@@ -124,7 +128,6 @@ class Test(unittest.TestCase):
         finally:
             platform.uname = uname
 
-
     def test_CommandLine(self):
         runtime_info = self._Test__new()
         self.assertEqual(runtime_info.getCommandLine(), " ".join(sys.argv))
@@ -142,7 +145,8 @@ class Test(unittest.TestCase):
 
         # get the uptime the current implementation calculates
         test_uptime = runtime_info.getUptime()
-        self.assertAlmostEqual(asserted_uptime, test_uptime, delta=time_tolerance)
+        self.assertAlmostEqual(
+            asserted_uptime, test_uptime, delta=time_tolerance)
 
     @unittest.skipIf(not sys.path, "Need entries on path")
     def test_getPythonPath_returns_unicode(self):
@@ -165,6 +169,7 @@ class Test(unittest.TestCase):
             # context not available
             class Setup(object):
                 context = None
+
                 @classmethod
                 def getConfigContext(cls):
                     return cls.context
@@ -173,6 +178,7 @@ class Test(unittest.TestCase):
             self.assertEqual(runtime_info.getDeveloperMode(), 'undefined')
 
             features = []
+
             class Context(object):
                 @staticmethod
                 def hasFeature(name):
@@ -187,11 +193,3 @@ class Test(unittest.TestCase):
             self.assertEqual(runtime_info.getDeveloperMode(), 'On')
         finally:
             module.appsetup = orig_appsetup
-
-def test_suite():
-    return unittest.TestSuite((
-        unittest.defaultTestLoader.loadTestsFromName(__name__),
-    ))
-
-if __name__ == '__main__':
-    unittest.main()
