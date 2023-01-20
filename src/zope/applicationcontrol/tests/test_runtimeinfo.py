@@ -43,7 +43,7 @@ except NameError:
 
 
 @implementer(IZopeVersion)
-class TestZopeVersion(object):
+class TestZopeVersion:
     """A fallback implementation for the ZopeVersion utility."""
 
     def getZopeVersion(self):
@@ -87,7 +87,7 @@ class Test(unittest.TestCase):
         runtime_info = self._Test__new()
 
         # we expect that there is no utility
-        self.assertEqual(runtime_info.getZopeVersion(), u"Unavailable")
+        self.assertEqual(runtime_info.getZopeVersion(), "Unavailable")
 
         siteManager = component.getSiteManager()
         siteManager.registerUtility(TestZopeVersion(), IZopeVersion)
@@ -96,11 +96,7 @@ class Test(unittest.TestCase):
 
     def test_PythonVersion(self):
         runtime_info = self._Test__new()
-        enc = self._getPreferredEncoding()
-        self.assertEqual(
-            runtime_info.getPythonVersion(),
-            sys.version if not isinstance(sys.version, bytes)
-            else sys.version.decode(enc))
+        self.assertEqual(runtime_info.getPythonVersion(), sys.version)
 
     def test_SystemPlatform(self):
         runtime_info = self._Test__new()
@@ -113,18 +109,18 @@ class Test(unittest.TestCase):
         uname = platform.uname
 
         def bad_uname():
-            class BadObject(object):
+            class BadObject:
                 def decode(self, _enc):
                     raise UnicodeError("Not gonna happen")
             return (BadObject(),)
         try:
             platform.uname = bad_uname
             plat = runtime_info.getSystemPlatform()
-            self.assertEqual(plat, u'')
+            self.assertEqual(plat, '')
 
             platform.uname = lambda: ('a', 'b')
             plat = runtime_info.getSystemPlatform()
-            self.assertEqual(plat, u'a b')
+            self.assertEqual(plat, 'a b')
         finally:
             platform.uname = uname
 
@@ -167,7 +163,7 @@ class Test(unittest.TestCase):
             self.assertEqual(runtime_info.getDeveloperMode(), 'undefined')
 
             # context not available
-            class Setup(object):
+            class Setup:
                 context = None
 
                 @classmethod
@@ -179,7 +175,7 @@ class Test(unittest.TestCase):
 
             features = []
 
-            class Context(object):
+            class Context:
                 @staticmethod
                 def hasFeature(name):
                     return name in features
