@@ -42,15 +42,10 @@ try:
 except ImportError:
     appsetup = None
 
-try:
-    text_type = unicode
-except NameError:
-    text_type = str
-
 
 @implementer(IRuntimeInfo)
 @adapter(IApplicationControl)
-class RuntimeInfo(object):
+class RuntimeInfo:
     """Runtime information."""
 
     def __init__(self, context):
@@ -94,15 +89,12 @@ class RuntimeInfo(object):
 
     def getPythonVersion(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        return (
-            sys.version
-            if isinstance(sys.version, text_type)
-            else sys.version.decode(self.getPreferredEncoding()))
+        return sys.version
 
     def getPythonPath(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         enc = self.getFileSystemEncoding()
-        return tuple([path if isinstance(path, text_type) else path.decode(enc)
+        return tuple([path if isinstance(path, str) else path.decode(enc)
                       for path in sys.path])
 
     def getSystemPlatform(self):
@@ -111,18 +103,18 @@ class RuntimeInfo(object):
         enc = self.getPreferredEncoding()
         for item in platform.uname():
             try:
-                t = item if isinstance(item, text_type) else item.decode(enc)
+                t = item if isinstance(item, str) else item.decode(enc)
             except UnicodeError:
                 continue
             info.append(t)
-        return u' '.join(info)
+        return ' '.join(info)
 
     def getCommandLine(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
         cmd = " ".join(sys.argv)
         return (
             cmd
-            if isinstance(cmd, text_type)
+            if isinstance(cmd, str)
             else cmd.decode(self.getPreferredEncoding()))
 
     def getProcessId(self):
