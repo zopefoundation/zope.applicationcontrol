@@ -93,9 +93,7 @@ class RuntimeInfo:
 
     def getPythonPath(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        enc = self.getFileSystemEncoding()
-        return tuple([path if isinstance(path, str) else path.decode(enc)
-                      for path in sys.path])
+        return tuple(path for path in sys.path)
 
     def getSystemPlatform(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
@@ -111,11 +109,7 @@ class RuntimeInfo:
 
     def getCommandLine(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
-        cmd = " ".join(sys.argv)
-        return (
-            cmd
-            if isinstance(cmd, str)
-            else cmd.decode(self.getPreferredEncoding()))
+        return " ".join(sys.argv)
 
     def getProcessId(self):
         """See zope.app.applicationcontrol.interfaces.IRuntimeInfo"""
