@@ -34,7 +34,7 @@ tests_require = [
 
 setup(
     name='zope.applicationcontrol',
-    version='5.0',
+    version='5.1.dev0',
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     description='Zope applicationcontrol',
