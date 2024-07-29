@@ -80,7 +80,6 @@ setup(
         'zope.security',
         'zope.traversing>=3.7.0',
     ],
-    tests_require=tests_require,
     include_package_data=True,
     zip_safe=False,
 )
