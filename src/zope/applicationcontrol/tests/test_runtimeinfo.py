@@ -20,7 +20,7 @@ import unittest
 
 try:
     import locale
-except ImportError:  # pragma: no cover
+except ModuleNotFoundError:  # pragma: no cover
     locale = None
 
 from zope.interface import implementer

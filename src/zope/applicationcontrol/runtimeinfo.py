@@ -22,7 +22,7 @@ import time
 
 try:
     import locale
-except ImportError:  # pragma: no cover
+except ModuleNotFoundError:  # pragma: no cover
     locale = None
 
 import platform
@@ -39,7 +39,7 @@ from zope.applicationcontrol.interfaces import IZopeVersion
 
 try:
     from zope.app.appsetup import appsetup
-except ImportError:
+except ModuleNotFoundError:
     appsetup = None
 
 
