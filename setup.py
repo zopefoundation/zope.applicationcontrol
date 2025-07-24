@@ -18,7 +18,6 @@
 ##############################################################################
 import os
 
-from setuptools import find_packages
 from setuptools import setup
 
 
@@ -29,7 +28,7 @@ def read(*rnames):
 
 tests_require = [
     'zope.testing',
-    'zope.testrunner',
+    'zope.testrunner >= 6.4',
 ]
 
 setup(
@@ -68,9 +67,6 @@ setup(
     extras_require={
         'test': tests_require,
     },
-    package_dir={'': 'src'},
-    packages=find_packages('src'),
-    namespace_packages=['zope'],
     python_requires='>=3.9',
     install_requires=[
         'setuptools',
