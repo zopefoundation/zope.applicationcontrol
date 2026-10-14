@@ -10,9 +10,6 @@ on:
     - cron: '0 12 * * 0'  # run once a week on Sunday
   # Allow to run this workflow manually from the Actions tab
   workflow_dispatch:
-  # Temporary: run by labeling the PR, remove before merging
-  pull_request:
-    types: [labeled]
 
 jobs:
   build:
@@ -28,7 +25,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         token: ${{ steps.app-token.outputs.token }}
-        ref: ${{ github.event.pull_request.base.ref || github.ref }}
     - name: Get current date
       run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
     - name: Install uv
