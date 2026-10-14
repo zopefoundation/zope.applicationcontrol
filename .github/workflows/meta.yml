@@ -1,0 +1,42 @@
+# Generated from:
+# https://github.com/zopefoundation/meta/tree/master/config/pure-python
+name: meta
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    - cron: '0 12 * * 0'  # run once a week on Sunday
+  # Allow to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: meta
+    steps:
+    - name: Create GitHub App token
+      uses: actions/create-github-app-token@v2
+      id: app-token
+      with:
+        app-id: ${{ vars.ZOPE_META_APP_ID }}
+        private-key: ${{ secrets.ZOPE_META_APP_PRIVATE_KEY }}
+    - uses: actions/checkout@v4
+      with:
+        token: ${{ steps.app-token.outputs.token }}
+    - name: Get current date
+      run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+    - name: Install uv
+      uses: astral-sh/setup-uv@v5
+      with:
+        enable-cache: false
+        python-version: 3.13
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+    - name: update-python-support
+      env:
+        GH_TOKEN: ${{ steps.app-token.outputs.token }}
+      run: |
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        uvx --from git+https://github.com/zopefoundation/meta@auto-update update-python-support . --auto-update --branch=update-python-support-${{ env.CURRENT_DATE }}
