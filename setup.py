@@ -31,51 +31,5 @@ tests_require = [
     'zope.testrunner >= 6.4',
 ]
 
-setup(
-    name='zope.applicationcontrol',
-    version='6.2.dev0',
-    author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.dev',
-    description='Zope applicationcontrol',
-    long_description=(
-        read('README.rst')
-        + '\n\n' +
-        read('CHANGES.rst')
-    ),
-    license='ZPL-2.1',
-    keywords="zope ztk application control",
-    classifiers=[
-        'Development Status :: 5 - Production/Stable',
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: Zope Public License',
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.11',
-        'Programming Language :: Python :: 3.12',
-        'Programming Language :: Python :: 3.13',
-        'Programming Language :: Python :: 3.14',
-        'Programming Language :: Python :: 3.15',
-        'Programming Language :: Python :: Implementation :: CPython',
-        'Programming Language :: Python :: Implementation :: PyPy',
-        'Natural Language :: English',
-        'Operating System :: OS Independent',
-        'Topic :: Internet :: WWW/HTTP',
-        'Framework :: Zope :: 3',
-    ],
-    url='https://github.com/zopefoundation/zope.applicationcontrol',
-    extras_require={
-        'test': tests_require,
-    },
-    python_requires='>=3.11',
-    install_requires=[
-        'setuptools',
-        'zope.interface',
-        'zope.component',
-        'zope.location',
-        'zope.security',
-        'zope.traversing>=3.7.0',
-    ],
-    include_package_data=True,
-    zip_safe=False,
-)
+# See pyproject.toml for package metadata
+setup()
