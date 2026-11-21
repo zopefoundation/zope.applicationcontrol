@@ -5,7 +5,7 @@
 6.2 (unreleased)
 ================
 
-- Nothing changed yet.
+- Move package metadata from setup.py to pyproject.toml.
 
 
 6.1 (2026-10-16)
